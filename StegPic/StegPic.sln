@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StegPic", "StegPic\StegPic.csproj", "{AEF864EB-E1E6-428F-843F-FDBC9BF56155}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stegger", "StegPic\Stegger.csproj", "{AEF864EB-E1E6-428F-843F-FDBC9BF56155}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
