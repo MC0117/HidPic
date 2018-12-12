@@ -36,7 +36,7 @@
             this.initialPicturePathLabel = new System.Windows.Forms.Label();
             this.picturePathTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.keyTextBox = new System.Windows.Forms.TextBox();
             this.addKeyButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.methodLabel = new System.Windows.Forms.Label();
@@ -47,6 +47,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.saveFilePathTextBox = new System.Windows.Forms.TextBox();
             this.sdfOpenButton = new System.Windows.Forms.Button();
+            this.keyAddedLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.initialPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,6 +114,7 @@
             // 
             this.picturePathTextBox.Location = new System.Drawing.Point(79, 59);
             this.picturePathTextBox.Name = "picturePathTextBox";
+            this.picturePathTextBox.ReadOnly = true;
             this.picturePathTextBox.Size = new System.Drawing.Size(287, 20);
             this.picturePathTextBox.TabIndex = 11;
             // 
@@ -125,12 +127,13 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Key:";
             // 
-            // textBox1
+            // keyTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(79, 444);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(152, 20);
-            this.textBox1.TabIndex = 6;
+            this.keyTextBox.Location = new System.Drawing.Point(79, 444);
+            this.keyTextBox.MaxLength = 10;
+            this.keyTextBox.Name = "keyTextBox";
+            this.keyTextBox.Size = new System.Drawing.Size(152, 20);
+            this.keyTextBox.TabIndex = 6;
             // 
             // addKeyButton
             // 
@@ -140,6 +143,7 @@
             this.addKeyButton.TabIndex = 7;
             this.addKeyButton.Text = "Add";
             this.addKeyButton.UseVisualStyleBackColor = true;
+            this.addKeyButton.Click += new System.EventHandler(this.addKeyButton_Click);
             // 
             // label3
             // 
@@ -213,6 +217,7 @@
             // 
             this.saveFilePathTextBox.Location = new System.Drawing.Point(79, 746);
             this.saveFilePathTextBox.Name = "saveFilePathTextBox";
+            this.saveFilePathTextBox.ReadOnly = true;
             this.saveFilePathTextBox.Size = new System.Drawing.Size(287, 20);
             this.saveFilePathTextBox.TabIndex = 18;
             // 
@@ -226,12 +231,21 @@
             this.sdfOpenButton.UseVisualStyleBackColor = true;
             this.sdfOpenButton.Click += new System.EventHandler(this.sdfOpenButton_Click);
             // 
+            // keyAddedLabel
+            // 
+            this.keyAddedLabel.AutoSize = true;
+            this.keyAddedLabel.Location = new System.Drawing.Point(237, 447);
+            this.keyAddedLabel.Name = "keyAddedLabel";
+            this.keyAddedLabel.Size = new System.Drawing.Size(0, 13);
+            this.keyAddedLabel.TabIndex = 20;
+            // 
             // StegGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(586, 822);
+            this.Controls.Add(this.keyAddedLabel);
             this.Controls.Add(this.sdfOpenButton);
             this.Controls.Add(this.saveFilePathTextBox);
             this.Controls.Add(this.label4);
@@ -244,7 +258,7 @@
             this.Controls.Add(this.initialPicturePathLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.addKeyButton);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.keyTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hiddenInformationTextBox);
@@ -270,7 +284,7 @@
         private System.Windows.Forms.Label initialPicturePathLabel;
         private System.Windows.Forms.TextBox picturePathTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox keyTextBox;
         private System.Windows.Forms.Button addKeyButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label methodLabel;
@@ -281,6 +295,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox saveFilePathTextBox;
         private System.Windows.Forms.Button sdfOpenButton;
+        private System.Windows.Forms.Label keyAddedLabel;
     }
 }
 

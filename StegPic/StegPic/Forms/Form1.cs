@@ -15,6 +15,7 @@ namespace StegPic
     public partial class StegGUI : Form
     {
         Bitmap bmp = null;
+        private string key;
 
         public StegGUI()
         {
@@ -81,6 +82,13 @@ namespace StegPic
                     }
                 }                          
             }
+        }
+
+        private void addKeyButton_Click(object sender, EventArgs e)
+        {
+            key = keyTextBox.Text;
+            keyAddedLabel.Text = "Key added.";
+            keyAddedLabel.ForeColor = Color.Green;
         }
     }
 }

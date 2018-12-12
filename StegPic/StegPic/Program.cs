@@ -9,9 +9,8 @@ namespace StegPic
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        /// @author: rooster
+        /// 
         [STAThread]
         static void Main()
         {
