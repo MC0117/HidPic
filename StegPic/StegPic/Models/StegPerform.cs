@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+
 namespace StegPic.Models
 {
     //The stage of decryption
-    enum ExtractStage { }
     class StegPerform
     {
-        static Bitmap EmbedData (string data, Bitmap bmp)
+        public static Bitmap EmbedData (string data, Bitmap bmp)
         {
+            data = DataHandler.DataToBinary(data);
             int bitsPerRow = bmp.Width * 3;
             bool embedDone = false;
 
@@ -39,8 +40,6 @@ namespace StegPic.Models
                                 break;
                             case 0:
                                 break;
-
-
                         }
                     }
                     
@@ -66,38 +65,37 @@ namespace StegPic.Models
             return Convert.ToByte(byteValue, 2);
         }
 
-        static string ExtractData (Bitmap bmp)
+
+
+        public static string ExtractData (Bitmap bmp)
         {
-            bool extractDone = false;
-            string s = "", seq = "|&)) % p0||", t = "";
-            for (int heightIndex = 0; (heightIndex < bmp.Height && extractDone); heightIndex++)
+            bool extractDone = false; //implement this later
+            string s = "", seq = "|&)) % p0||"; int t = 0;
+            for (int heightIndex = 0; (heightIndex < bmp.Height && !extractDone); heightIndex++)
             {
-                for (int widthIndex = 0; (widthIndex < bmp.Width && extractDone); widthIndex++)
+                for (int widthIndex = 0; (widthIndex < bmp.Width && !extractDone); widthIndex++)
                 {
                     Color pixel = bmp.GetPixel(widthIndex, heightIndex);
-                    for (int bitIndex = 0; bitIndex < 3; bitIndex++)
+                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString();
+                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.G).Length - 1].ToString();
+                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
+                }
+            }
+            for (int bitIndex = 0; bitIndex < bmp.Width * bmp.Height * 8; bitIndex++)
+            {
+                if (bitIndex > 10 && s[bitIndex] == '|')
+                {
+                    for (int i = seq.Length; i >= 0; i--)
                     {
-                        if (bitIndex > 10)
+                        if (!(s[bitIndex - i] == seq[seq.Length - i]))
                         {
-                            if (s[bitIndex] == '|')
-                            {
-                                for (int i = 10; i > 0; i--)
-                                {
-                                    if(!(s[bitIndex - i] == seq[10 - i]))
-                                    {
-                                        t = seq[10 - i] + t;
-                                        break;
-                                    }
-                                }
-                            }
-
+                            t++;
                         }
                     }
                 }
             }
             return s;
         }
-
     }
 }
 //bmp.SetPixel(widthIndex, heightIndex, Color.FromArgb(ConfigureColor(data[bmp.Width*heightIndex + widthIndex], pixel.R), ConfigureColor(data[1], pixel.G), ConfigureColor(data[2], pixel.B)));
