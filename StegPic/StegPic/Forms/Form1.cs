@@ -26,6 +26,8 @@ namespace StegPic
         {
         }
 
+
+
         private void decryptRadioBtn_Click(object sender, EventArgs e)
         {
             encryptRadioBtn.Checked = decryptRadioBtn.Checked;
@@ -39,6 +41,9 @@ namespace StegPic
             encryptRadioBtn.Checked = !(encryptRadioBtn.Checked);
             saveFileLabel.Text = "Save manipulated picture:";
         }
+
+
+
 
         private void ofdOpenButton_Click(object sender, EventArgs e)
         {
@@ -89,6 +94,11 @@ namespace StegPic
             key = keyTextBox.Text;
             keyAddedLabel.Text = "Key added.";
             keyAddedLabel.ForeColor = Color.Green;
+        }
+
+        private void performButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

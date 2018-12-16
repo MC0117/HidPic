@@ -40,7 +40,7 @@
             this.addKeyButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.methodLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.performButton = new System.Windows.Forms.Button();
             this.ofdOpenButton = new System.Windows.Forms.Button();
             this.fileNameLabel = new System.Windows.Forms.Label();
             this.saveFileLabel = new System.Windows.Forms.Label();
@@ -166,14 +166,15 @@
             this.methodLabel.TabIndex = 12;
             this.methodLabel.Text = "Choose wether information should be inserted or extracted from picture-file:";
             // 
-            // button1
+            // performButton
             // 
-            this.button1.Location = new System.Drawing.Point(5, 787);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Perform";
-            this.button1.UseVisualStyleBackColor = true;
+            this.performButton.Location = new System.Drawing.Point(5, 787);
+            this.performButton.Name = "performButton";
+            this.performButton.Size = new System.Drawing.Size(75, 23);
+            this.performButton.TabIndex = 13;
+            this.performButton.Text = "Perform";
+            this.performButton.UseVisualStyleBackColor = true;
+            this.performButton.Click += new System.EventHandler(this.performButton_Click);
             // 
             // ofdOpenButton
             // 
@@ -252,7 +253,7 @@
             this.Controls.Add(this.saveFileLabel);
             this.Controls.Add(this.fileNameLabel);
             this.Controls.Add(this.ofdOpenButton);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.performButton);
             this.Controls.Add(this.methodLabel);
             this.Controls.Add(this.picturePathTextBox);
             this.Controls.Add(this.initialPicturePathLabel);
@@ -288,7 +289,7 @@
         private System.Windows.Forms.Button addKeyButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label methodLabel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button performButton;
         private System.Windows.Forms.Button ofdOpenButton;
         private System.Windows.Forms.Label fileNameLabel;
         private System.Windows.Forms.Label saveFileLabel;

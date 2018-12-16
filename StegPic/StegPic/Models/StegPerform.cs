@@ -11,9 +11,9 @@ namespace StegPic.Models
     //The stage of decryption
     class StegPerform
     {
-        public static Bitmap EmbedData (string data, Bitmap bmp)
+        public static Bitmap EmbedData (string data, Bitmap bmp,  string key)
         {
-            data = DataHandler.DataToBinary(data);
+            data = DataHandler.DataToBinary(key + data);
             int bitsPerRow = bmp.Width * 3;
             bool embedDone = false;
 
@@ -67,30 +67,35 @@ namespace StegPic.Models
 
 
 
-        public static string ExtractData (Bitmap bmp)
+        public static string ExtractData (Bitmap bmp, string key)
         {
             bool extractDone = false; //implement this later
-            string s = "", seq = "|&)) % p0||"; int t = 0;
+            string s = "";  int t = 0; int bitPosition = 0;
             for (int heightIndex = 0; (heightIndex < bmp.Height && !extractDone); heightIndex++)
             {
                 for (int widthIndex = 0; (widthIndex < bmp.Width && !extractDone); widthIndex++)
-                {
-                    Color pixel = bmp.GetPixel(widthIndex, heightIndex);
-                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString();
-                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.G).Length - 1].ToString();
-                    s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
+                {                 
+                        Color pixel = bmp.GetPixel(widthIndex, heightIndex);
+                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString();
+                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.G).Length - 1].ToString();
+                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
                 }
             }
-            for (int bitIndex = 0; bitIndex < bmp.Width * bmp.Height * 8; bitIndex++)
+            for (int cIndex = 0; cIndex < bmp.Width * bmp.Height * 3 && !extractDone; cIndex++)
             {
-                if (bitIndex > 10 && s[bitIndex] == '|')
+                if (cIndex > key.Length && s[cIndex] == key[key.Length - 1])
                 {
-                    for (int i = seq.Length; i >= 0; i--)
+                    for (int i = key.Length; i > 0; i--)
                     {
-                        if (!(s[bitIndex - i] == seq[seq.Length - i]))
+                        if (!(s[cIndex - i] == key[key.Length - i]))
                         {
                             t++;
                         }
+                    }
+                    if (t == key.Length)
+                    {
+                        s.Remove(cIndex - (key.Length - 1));
+                        extractDone = true;
                     }
                 }
             }
@@ -98,4 +103,18 @@ namespace StegPic.Models
         }
     }
 }
+
+/*
+bitPosition = 3 * (bmp.Width * heightIndex + widthIndex);
+                    if (bitPosition > 10 && s[bitPosition] == key[0])
+                    {
+                        for (int i = key.Length; i >= 0; i--)
+                        {
+                            if (!(s[bitPosition - i] == key[key.Length - i]))
+                            {
+                                t++;
+                            }
+                        }
+                    } 
+*/
 //bmp.SetPixel(widthIndex, heightIndex, Color.FromArgb(ConfigureColor(data[bmp.Width*heightIndex + widthIndex], pixel.R), ConfigureColor(data[1], pixel.G), ConfigureColor(data[2], pixel.B)));
