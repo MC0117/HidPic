@@ -12,15 +12,19 @@ namespace StegPic.Models
         public static string DataToBinary (string data)
         {
             string binaryString = "", tmp;
+            int n;
             for (int i = 0; i < data.Length; i++)
             {
-                tmp = byte.Parse(data[i].ToString()).ToString();
-                for (int j = 0; i < 8 - tmp.Length; i++)
+                //tmp = byte.Parse(data[i].ToString()).ToString();
+                tmp = Convert.ToString(Convert.ToByte(data[i]), 2);
+                n = tmp.Length;
+                for (int j = 0; j < 8 - n; j++)
                 {
                     tmp = "0" + tmp;
                 }
                 binaryString += tmp;
             }
+            //correct
             return binaryString;
         }
 

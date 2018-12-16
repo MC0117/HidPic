@@ -13,8 +13,8 @@ namespace StegPic.Models
     {
         public static Bitmap EmbedData (string data, Bitmap bmp,  string key)
         {
-            data = DataHandler.DataToBinary(key + data);
-            int bitsPerRow = bmp.Width * 3;
+            key = key == "" ? key = "|3&  y/£&&#" : key;
+            data = DataHandler.DataToBinary(data + key);
             bool embedDone = false;
 
             for(int heightIndex = 0; (heightIndex < bmp.Height && !embedDone); heightIndex++)
@@ -48,20 +48,21 @@ namespace StegPic.Models
             }
             return bmp;
         }
-
+        //correct
         static byte ConfigureColor(char bit, byte colorValue)
         {
 
             string byteValue = Convert.ToString(colorValue, 2);
-
+            int b = byteValue.Length;
             if (byteValue.Length != 8)
             {
-                for (int i = 0; i < 8 - byteValue.Length; i++)
+                for (int i = 0; i < 8 - b; i++)
                 {
                     byteValue = "0" + byteValue;
                 }
             }
             byteValue = byteValue[7] == bit ? byteValue : byteValue.Replace(byteValue[7], bit);
+            Convert.ToByte(byteValue, 2);
             return Convert.ToByte(byteValue, 2);
         }
 
@@ -69,42 +70,80 @@ namespace StegPic.Models
 
         public static string ExtractData (Bitmap bmp, string key)
         {
-            bool extractDone = false; //implement this later
-            string s = "";  int t = 0; int bitPosition = 0;
+            key = key == "" ? key = "|3&  y/£&&#" : key;
+            bool extractDone = false;
+            string binaryString = "", output = "";
+            int bitsConfigured = 0,
+                numberOfBits = bmp.Width * 3,
+                bytesConfigured = 0,
+                charsPerLine = bmp.Width - ((numberOfBits) % 8);
+
             for (int heightIndex = 0; (heightIndex < bmp.Height && !extractDone); heightIndex++)
             {
-                for (int widthIndex = 0; (widthIndex < bmp.Width && !extractDone); widthIndex++)
-                {                 
-                        Color pixel = bmp.GetPixel(widthIndex, heightIndex);
-                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString();
-                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.G).Length - 1].ToString();
-                        s += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
-                }
-            }
-            for (int cIndex = 0; cIndex < bmp.Width * bmp.Height * 3 && !extractDone; cIndex++)
-            {
-                if (cIndex > key.Length && s[cIndex] == key[key.Length - 1])
+                for (int widthIndex = 0; !extractDone && widthIndex < bmp.Width; widthIndex++)
                 {
-                    for (int i = key.Length; i > 0; i--)
+                    Color pixel = bmp.GetPixel(widthIndex, heightIndex);
+                    //checks for stop key
+                    if (bitsConfigured > 8 && bytesConfigured != bitsConfigured / 8)
                     {
-                        if (!(s[cIndex - i] == key[key.Length - i]))
+                        bytesConfigured = bitsConfigured / 8;
+                        int n = bytesConfigured % 8, t = 0;
+
+                        if (key[key.Length - 1] == (char)(Convert.ToByte(binaryString.Substring(bitsConfigured - (8 + n), 8), 2)))
                         {
-                            t++;
+                            for (int i = 0; i < key.Length - 1; i++)
+                            {
+                                if (key[key.Length - i + 1] == (char)(Convert.ToByte(binaryString.Substring(bitsConfigured - ((8 + n) + 8 * i), 8), 2)))
+                                {
+                                    t++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            extractDone = t == key.Length - 1 ? true : false;
+                        }
+                        else
+                        {
+                            output += Convert.ToByte(binaryString.Substring(bitsConfigured - (8 + n), 8), 2);
                         }
                     }
-                    if (t == key.Length)
+                    if (!extractDone)
                     {
-                        s.Remove(cIndex - (key.Length - 1));
-                        extractDone = true;
+                        string s1 = Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString(), 
+                            s2 = Convert.ToString(pixel.G, 2)[Convert.ToString(pixel.G).Length - 1].ToString(), 
+                            s3 = Convert.ToString(pixel.B, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
+                        // it will repeat itself due to the fact
+                        binaryString += Convert.ToString(pixel.R, 2)[Convert.ToString(pixel.R).Length - 1].ToString();
+                        binaryString += Convert.ToString(pixel.G, 2)[Convert.ToString(pixel.G).Length - 1].ToString();
+                        binaryString += Convert.ToString(pixel.B, 2)[Convert.ToString(pixel.B).Length - 1].ToString();
+                        bitsConfigured += 3;
                     }
                 }
             }
-            return s;
+                return output;
         }
     }
 }
 
 /*
+    switch (bitsConfigured % 3)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                    }
+
+
+
+
+
+
+
 bitPosition = 3 * (bmp.Width * heightIndex + widthIndex);
                     if (bitPosition > 10 && s[bitPosition] == key[0])
                     {

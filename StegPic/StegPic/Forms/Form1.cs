@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using StegPic.Models;
 
 namespace StegPic
 {
@@ -48,7 +49,7 @@ namespace StegPic
         private void ofdOpenButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "PNG Image |*.png|JPEG Image |*.jpeg";
+            ofd.Filter = "PNG Image |*.png|JPEG Image |*.jpg";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 picturePathTextBox.Text = ofd.FileName;
@@ -72,10 +73,12 @@ namespace StegPic
             }
             else if (encryptRadioBtn.Checked)
             {
-                sfd.Filter = "PNG Image |*.png|JPEG Image |*.jpeg";
+                sfd.Filter = "JPEG Image |*.jpg";
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     //saving bitmap in diffrent imageformats based on FilterIndex of savefiledialog
+                    bmp.Save(sfd.FileName, ImageFormat.Jpeg);
+                    /*
                     switch (sfd.FilterIndex)
                     {
                         case 0:
@@ -85,6 +88,7 @@ namespace StegPic
                             bmp.Save(sfd.FileName, ImageFormat.Jpeg);
                             break;
                     }
+                    */
                 }                          
             }
         }
@@ -92,13 +96,24 @@ namespace StegPic
         private void addKeyButton_Click(object sender, EventArgs e)
         {
             key = keyTextBox.Text;
+            //key += key.Length < 10 ? 
             keyAddedLabel.Text = "Key added.";
             keyAddedLabel.ForeColor = Color.Green;
         }
 
         private void performButton_Click(object sender, EventArgs e)
         {
-
+            bmp = (Bitmap)initialPictureBox.Image;
+            if (encryptRadioBtn.Checked)
+            {
+                bmp = StegPerform.EmbedData(hiddenInformationTextBox.Text, bmp, key);
+                MessageBox.Show("data successfully embedded");
+                initialPictureBox.Image = bmp;
+            }
+            else
+            {
+                hiddenInformationTextBox.Text = StegPerform.ExtractData(bmp, key);
+            }
         }
     }
 }
