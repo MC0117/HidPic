@@ -30,6 +30,7 @@ namespace StegPic.Models
                     }
                     else
                     {
+                        //not correct byte is saved
                         switch (data.Length - x)
                         {
                             case 2:
