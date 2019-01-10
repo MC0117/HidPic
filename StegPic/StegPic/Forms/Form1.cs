@@ -115,10 +115,5 @@ namespace StegPic
                 hiddenInformationTextBox.Text = StegPerform.ExtractData(bmp, key);
             }
         }
-
-        private void initialPictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

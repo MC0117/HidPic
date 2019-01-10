@@ -34,6 +34,7 @@ namespace StegPic.Models
 
             for (int i = 0; i < binaryString.Length; i += 8)
             {
+                tmp = "";
                 for (int j = 0; j < 8; j++)
                 {
                     tmp += binaryString[j];
