@@ -33,6 +33,7 @@ namespace StegPic
         {
             encryptRadioBtn.Checked = decryptRadioBtn.Checked;
             decryptRadioBtn.Checked = !(decryptRadioBtn.Checked);
+            hiddenInformationTextBox.Clear();
             saveFileLabel.Text = "Save extracted information in .txt-file:";
         }
 
@@ -40,6 +41,7 @@ namespace StegPic
         {
             decryptRadioBtn.Checked = encryptRadioBtn.Checked;
             encryptRadioBtn.Checked = !(encryptRadioBtn.Checked);
+            hiddenInformationTextBox.Clear();
             saveFileLabel.Text = "Save manipulated picture:";
         }
 
@@ -49,7 +51,7 @@ namespace StegPic
         private void ofdOpenButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "PNG Image |*.png|JPEG Image |*.jpg";
+            ofd.Filter = "PNG Image |*.png";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 picturePathTextBox.Text = ofd.FileName;
@@ -73,11 +75,11 @@ namespace StegPic
             }
             else if (encryptRadioBtn.Checked)
             {
-                sfd.Filter = "JPEG Image |*.jpg";
+                sfd.Filter = "PNG Image |*.png";
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     //saving bitmap in diffrent imageformats based on FilterIndex of savefiledialog
-                    bmp.Save(sfd.FileName, ImageFormat.Jpeg);
+                    bmp.Save(sfd.FileName, ImageFormat.Png);
                     /*
                     switch (sfd.FilterIndex)
                     {

@@ -102,27 +102,24 @@ namespace StegPic.Models
                         colorIndex++;
                         if (bitSeq.Length == 8)
                         {
-                            output += (char)Convert.ToByte(bitSeq);
+                            output += (char)Convert.ToByte(bitSeq, 2);
                             extractDone = (char)Convert.ToByte(bitSeq, 2) == key[key.Length - 1] && CheckForKey(output, key) ? true: false;
                             bitSeq = String.Empty;
                         }
                     }
                 }
             }
-            return output;
+            return output.Remove(output.Length - key.Length);
         }
 
         public static bool CheckForKey(string message, string key)
         {
-            bool search = true;
-            for (int i = key.Length - 1; i >= 0 && search; i--)
+            bool isKey = false;
+            if (message.Length > key.Length)
             {
-                if (key[i] != message[i])
-                {
-                    search = false;
-                }
+                isKey = (message.Substring(message.Length - key.Length) == key);
             }
-            return search;
+            return isKey;
         }
     }
 }
